@@ -31,7 +31,7 @@ The notebooks are in this repository and in the Google Drive folder `fatima tech
 
 ## What the notebook gives
 
-All files go to `My Drive/fatima technical challenge/outputs/01_model_selection/`:
+All files go to `My Drive/fatima technical challenge/outputs/01_model_selection/<RUN_NAME>/` (run1 had the "nan" prompt error; use run2):
 
 | File | Content |
 |---|---|
@@ -39,7 +39,7 @@ All files go to `My Drive/fatima technical challenge/outputs/01_model_selection/
 | `raw/results_<model>.jsonl` | Full chat input, raw output, cleaned output, and reference log-probability for each row |
 | `answers_with_metrics.csv` | Answers with chrF++ and language ID |
 | `model_selection_summary.csv` | Final table for each model |
-| `bootstrap_chrf.csv` | 95% bootstrap intervals of the chrF++ differences |
+| `bootstrap_chrf.csv`, `bootstrap_bpb.csv` | 95% paired bootstrap intervals of the chrF++ and bits-per-byte differences |
 | `model_choice_paragraph.md` | Draft paragraph for the report (edit it) |
 | `rating_sheet.csv`, `rating_key.csv` | Optional blind rating sheet and its key |
 | `run_info.json` | GPU, versions, settings, and run time |
