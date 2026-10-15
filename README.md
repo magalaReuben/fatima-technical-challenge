@@ -11,6 +11,21 @@ The notebooks are in this repository and in the Google Drive folder `fatima tech
 | 1 | [`notebooks/01_model_selection.ipynb`](notebooks/01_model_selection.ipynb) ([open in Colab from Drive](https://colab.research.google.com/drive/1Y3Tx_MslPr8HCCWdzIBkfAIC0VzGtCf3)) | Give 4 candidate models the same 30 Luganda instructions from `reuben256/alpaca-luganda-cleaned` (test split). Compare each answer with the reference answer. Select the best model for the next evaluations. |
 | 2 | (next) Test A — likelihood on minimal pairs | |
 
+## Result of notebook 01 (run2): selected model `Qwen/Qwen3.5-4B`
+
+30 Luganda rows from the test split, NVIDIA L4, greedy decoding. Raw outputs: `My Drive/fatima technical challenge/outputs/01_model_selection/run2/`.
+
+| Model | Corpus chrF++ ↑ | Reference bits per byte ↓ | Luganda share | Answers cut at max length |
+|---|---|---|---|---|
+| google/gemma-4-E4B-it | 22.4 | 2.06 | 97% | 3% |
+| HuggingFaceTB/SmolLM3-3B | 18.4 | 2.08 | 93% | 13% |
+| **Qwen/Qwen3.5-4B** | 18.2 | **1.62** | 90% | 7% |
+| microsoft/Phi-4-mini-instruct | 15.4 | 1.94 | 73% | 57% |
+
+- chrF++ does not separate the models: all paired bootstrap intervals against the best model include 0.
+- Reference bits per byte separates them: Qwen3.5-4B is lower than each other model, and the 95% paired bootstrap interval excludes 0 in all three cases (lower on 25, 27 and 24 of 30 items). Run1 gave the same order (1.66 against 2.11–2.15).
+- Qwen3.5-4B is the best predictor of correct Luganda, but its own answers are weak: it often repeats the prompt or a phrase. This is expected to matter in Tests B–D (prompted), not in Test A (likelihood).
+
 ## Candidate models (checked on the Hugging Face Hub, October 2026)
 
 | Key | Repository | Parameters | License | Gated |
