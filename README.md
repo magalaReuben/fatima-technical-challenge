@@ -8,7 +8,7 @@ The notebooks are in this repository and in the Google Drive folder `fatima tech
 
 | Step | Notebook | Purpose |
 |---|---|---|
-| 1 | [`notebooks/01_model_selection.ipynb`](notebooks/01_model_selection.ipynb) | Give 4 candidate models the same 30 Luganda instructions from `reuben256/alpaca-luganda-cleaned` (test split). Compare each answer with the reference answer. Select the best model for the next evaluations. |
+| 1 | [`notebooks/01_model_selection.ipynb`](notebooks/01_model_selection.ipynb) ([open in Colab from Drive](https://colab.research.google.com/drive/1h7rZDlDIXI4ONXdBXR-dnd_XsjHUmuuv)) | Give 4 candidate models the same 30 Luganda instructions from `reuben256/alpaca-luganda-cleaned` (test split). Compare each answer with the reference answer. Select the best model for the next evaluations. |
 | 2 | (next) Test A — likelihood on minimal pairs | |
 
 ## Candidate models (checked on the Hugging Face Hub, October 2026)
