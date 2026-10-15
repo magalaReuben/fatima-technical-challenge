@@ -9,7 +9,7 @@ The notebooks are in this repository and in the Google Drive folder `fatima tech
 | Step | Notebook | Purpose |
 |---|---|---|
 | 1 | [`notebooks/01_model_selection.ipynb`](notebooks/01_model_selection.ipynb) ([open in Colab from Drive](https://colab.research.google.com/drive/1Y3Tx_MslPr8HCCWdzIBkfAIC0VzGtCf3)) | Give 4 candidate models the same 30 Luganda instructions from `reuben256/alpaca-luganda-cleaned` (test split). Compare each answer with the reference answer. Select the best model for the next evaluations. |
-| 2 | (next) Test A — likelihood on minimal pairs | |
+| 2 | [`notebooks/02_test_a_likelihood.ipynb`](notebooks/02_test_a_likelihood.ipynb) | Test A: score each minimal pair with the log-probability of Qwen3.5-4B (no prompt). Also scores the paragraphs (Test E, likelihood part) and the variation items. |
 
 ## Result of notebook 01 (run2): selected model `Qwen/Qwen3.5-4B`
 
@@ -25,6 +25,10 @@ The notebooks are in this repository and in the Google Drive folder `fatima tech
 - chrF++ does not separate the models: all paired bootstrap intervals against the best model include 0.
 - Reference bits per byte separates them: Qwen3.5-4B is lower than each other model, and the 95% paired bootstrap interval excludes 0 in all three cases (lower on 25, 27 and 24 of 30 items). Run1 gave the same order (1.66 against 2.11–2.15).
 - Qwen3.5-4B is the best predictor of correct Luganda, but its own answers are weak: it often repeats the prompt or a phrase. This is expected to matter in Tests B–D (prompted), not in Test A (likelihood).
+
+## Evaluation items (draft for validation)
+
+[`data/luganda_eval_items.xlsx`](data/luganda_eval_items.xlsx) (built by [`data/build_items.py`](data/build_items.py)) has 200 minimal pairs (50 for each error type), 30 paragraphs and 20 variation items. Claude wrote the drafts, so a native speaker must validate them. The working copy is `My Drive/fatima technical challenge/luganda_eval_items.xlsx`: set `STATUS` to OK, FIXED or DROP, and write corrections in the `fixed_*` columns. The notebooks use only OK and FIXED rows. The Drive copy is the source of truth; this repository copy is the unvalidated draft.
 
 ## Candidate models (checked on the Hugging Face Hub, October 2026)
 
