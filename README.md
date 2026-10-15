@@ -4,43 +4,47 @@ Question: can a small open model (1B–4B parameters) tell correct Luganda from 
 
 ## Notebooks
 
+The notebooks are in this repository and in the Google Drive folder `fatima technical challenge`. Open them from Drive with Google Colab.
+
 | Step | Notebook | Purpose |
 |---|---|---|
-| 1 | [`notebooks/01_model_selection.ipynb`](notebooks/01_model_selection.ipynb) | Compare 4 candidate models on a sample of `reuben256/alpaca-luganda-cleaned`. Select the model with the most fluent Luganda. |
+| 1 | [`notebooks/01_model_selection.ipynb`](notebooks/01_model_selection.ipynb) | Give 4 candidate models the same 30 Luganda instructions from `reuben256/alpaca-luganda-cleaned` (test split). Compare each answer with the reference answer. Select the best model for the next evaluations. |
 | 2 | (next) Test A — likelihood on minimal pairs | |
+
+## Candidate models (checked on the Hugging Face Hub, October 2026)
+
+| Key | Repository | Parameters | License | Gated |
+|---|---|---|---|---|
+| qwen3.5-4b | `Qwen/Qwen3.5-4B` | 4B | Apache 2.0 | No |
+| gemma4-e4b | `google/gemma-4-E4B-it` | 4.5B effective (8B with embeddings) | Apache 2.0 | No |
+| smollm3-3b | `HuggingFaceTB/SmolLM3-3B` | 3B | Apache 2.0 | No |
+| phi4-mini | `microsoft/Phi-4-mini-instruct` | 3.8B | MIT | No |
+
+`microsoft/Phi-4-mini-instruct` replaces `meta-llama/Llama-3.2-3B-Instruct`, because the Llama model is gated. Optional extra: `CohereLabs/tiny-aya-earth` (African and West Asian languages; gated with automatic approval; non-commercial license).
 
 ## Checklist before you run notebook 01
 
-1. **Colab runtime.** Select *Runtime > Change runtime type > GPU*. Use an **L4** or **A100** if you can (bf16). A T4 works (fp16), but Gemma 3 can give NaN scores in fp16.
-2. **Hugging Face token.** Make a token at <https://huggingface.co/settings/tokens>.
-   - *Read* access is sufficient if you save outputs to Google Cloud Storage or Google Drive.
-   - Use *Write* access if you save outputs to a Hugging Face dataset repository.
-   - In Colab, open the key icon (Secrets). Add a secret with the name `HF_TOKEN`. Turn on *Notebook access*.
-3. **Gated models.** Open these pages, log in, and accept the license. Approval can take some minutes to some hours:
-   - <https://huggingface.co/google/gemma-3-4b-it>
-   - <https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct>
-
-   `Qwen/Qwen3-4B` and `HuggingFaceTB/SmolLM3-3B` are open (Apache 2.0).
-4. **Bucket.** Set `BUCKET_URI` in section 2 of the notebook (`gs://…`, `hf://datasets/…`, or `/content/drive/MyDrive/…`).
-5. **Time.** The model loop takes about 5–15 minutes for each model (most of it is the download). The blind rating of 40 answers (10 prompts × 4 models) takes about 30–45 minutes.
+1. **Colab runtime.** Select *Runtime > Change runtime type > GPU* and pick an **L4** or **A100**. Gemma 4 E4B needs about 16 GB of GPU memory, so it does not fit on a T4. On a T4, replace it with `google/gemma-4-E2B-it`.
+2. **Hugging Face token.** Make a token at <https://huggingface.co/settings/tokens>. It must be able to read your gated dataset `reuben256/alpaca-luganda-cleaned`. In Colab, open the key icon (Secrets). Add a secret with the name `HF_TOKEN`. Turn on *Notebook access*.
+3. **Google Drive.** The notebook mounts your Drive. Accept the request when Colab asks.
+4. **Time.** About 5–15 minutes for each model (most of it is the download).
 
 ## What the notebook gives
 
-All files go to `OUTPUT_DIR` and then to `BUCKET_URI`:
+All files go to `My Drive/fatima technical challenge/outputs/01_model_selection/`:
 
 | File | Content |
 |---|---|
-| `gen_prompts.jsonl`, `score_texts.jsonl` | The sample (10 prompts, 200 reference texts) with dataset row numbers |
-| `raw/gen_<model>.jsonl` | Full chat input, raw output, and cleaned output for each prompt |
-| `raw/score_<model>.jsonl` | Log-probability, tokens, bytes, and bits per byte for each reference text |
-| `generations_with_auto_metrics.csv` | Answers with language ID and chrF++ |
-| `rating_sheet.csv`, `rating_key.csv` | Blind rating sheet and its key |
-| `rating_sheet_filled.csv` | Your ratings |
+| `selection_items.jsonl` | The 30 rows (prompt, reference answer, dataset row number) |
+| `raw/results_<model>.jsonl` | Full chat input, raw output, cleaned output, and reference log-probability for each row |
+| `answers_with_metrics.csv` | Answers with chrF++ and language ID |
 | `model_selection_summary.csv` | Final table for each model |
+| `bootstrap_chrf.csv` | 95% bootstrap intervals of the chrF++ differences |
 | `model_choice_paragraph.md` | Draft paragraph for the report (edit it) |
+| `rating_sheet.csv`, `rating_key.csv` | Optional blind rating sheet and its key |
 | `run_info.json` | GPU, versions, settings, and run time |
 
 ## Notes
 
 - No training happens. The log-probability (the training loss with the sign changed) is used only to score text.
-- Generation uses greedy decoding with the same system prompt for all models, so the results are reproducible.
+- Generation uses greedy decoding and the same system prompt for all models, so the results are reproducible.
