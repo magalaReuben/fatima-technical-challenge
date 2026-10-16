@@ -8,8 +8,9 @@ The notebooks are in this repository and in the Google Drive folder `fatima tech
 
 | Step | Notebook | Purpose |
 |---|---|---|
+| 0 | [`notebooks/00_create_items_workbook.ipynb`](notebooks/00_create_items_workbook.ipynb) ([open in Colab from Drive](https://colab.research.google.com/drive/1hxvtMNEIk8p4HamDatUxj96jyBivhCc1)) | Run once (CPU). Writes `luganda_eval_items.xlsx` to the Drive folder. It does not overwrite an existing workbook. |
 | 1 | [`notebooks/01_model_selection.ipynb`](notebooks/01_model_selection.ipynb) ([open in Colab from Drive](https://colab.research.google.com/drive/1Y3Tx_MslPr8HCCWdzIBkfAIC0VzGtCf3)) | Give 4 candidate models the same 30 Luganda instructions from `reuben256/alpaca-luganda-cleaned` (test split). Compare each answer with the reference answer. Select the best model for the next evaluations. |
-| 2 | [`notebooks/02_test_a_likelihood.ipynb`](notebooks/02_test_a_likelihood.ipynb) | Test A: score each minimal pair with the log-probability of Qwen3.5-4B (no prompt). Also scores the paragraphs (Test E, likelihood part) and the variation items. |
+| 2 | [`notebooks/02_test_a_likelihood.ipynb`](notebooks/02_test_a_likelihood.ipynb) ([open in Colab from Drive](https://colab.research.google.com/drive/1s-CV1UwGz-dbOBV2Zpj4g2AyVJUH5wJC)) | Test A: score each minimal pair with the log-probability of Qwen3.5-4B (no prompt). Also scores the paragraphs (Test E, likelihood part) and the variation items. |
 
 ## Result of notebook 01 (run2): selected model `Qwen/Qwen3.5-4B`
 
